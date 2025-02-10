@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: pink; /* Fundal roz initial */
+            color: white;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow: hidden;  /* Previne scroll-ul pentru a ține butoanele pe ecran */
+        }
+        #main-image {
+            width: 40vw; /* Dimensiune imagine adaptabilă la dimensiunea ecranului */
+            max-width: 200px; /* Dimensiune maximă a imaginii */
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+        .question {
+            font-size: 4vw; /* Dimensiune font adaptabilă */
+            margin-bottom: 20px;
+        }
+        .buttons {
+            position: relative;
+        }
+        button {
+            font-size: 4vw; /* Dimensiune font adaptabilă */
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .yes {
+            background-color: green;
+            color: white;
+        }
+        .no {
+            background-color: red;
+            color: white;
+            position: absolute;
+            transition: 0.2s;
+            z-index: 10;
+        }
+        .hearts {
+            font-size: 30px;
+            margin-top: 20px;
+        }
+
+        /* Media queries pentru telefoane și ecrane mici */
+        @media (max-width: 600px) {
+            .question {
+                font-size: 5vw; /* Font mai mic pe telefoane */
+            }
+            button {
+                font-size: 5vw; /* Butoane mai mici pe telefoane */
+                padding: 15px 30px; /* Butoane mai mari pentru ușurința de apăsare */
+            }
+            #main-image {
+                width: 50vw; /* Imaginea devine mai mare pe telefoane */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img id="main-image" src="pisica cu trandafir.gif" alt="Pisica Fericită">
+        <p class="question">Will you be my Valentine? 💖</p>
+        <div class="buttons">
+            <button class="yes" onclick="sayYes()">Yes</button>
+            <button class="no" onclick="moveNo()">No</button>
+        </div>
+        <!-- Mesajul cu inimioare apare doar când se apasă 'Da' -->
+        <div id="message"></div>
+    </div>
+    
+    <script>
+        let noClickCount = 0;
+        const noMessages = [
+            "I'll become sad... 😢 I'll ask you again... 😔 Will you be my Valentine? Please say yes! 😢"
+        ];
+
+        const noButton = document.querySelector(".no");
+        const initialPosition = { x: noButton.offsetLeft, y: noButton.offsetTop }; // Salvează poziția inițială a butonului
+
+        // Functia pentru mutarea butonului "Nu"
+        function moveNo() {
+            let message = noMessages[noClickCount % noMessages.length];
+            document.querySelector(".question").innerText = message;
+
+            // Limitează mișcarea butonului "Nu" într-o zonă mică apropiată de poziția inițială
+            let x = initialPosition.x + (Math.random() * 50 - 25);  // Mută butonul în jurul poziției inițiale
+            let y = initialPosition.y + (Math.random() * 50 - 25);  // Mută butonul în jurul poziției inițiale
+
+            noButton.style.left = `${x}px`;
+            noButton.style.top = `${y}px`;
+
+            // Incrementează contorul pentru a arăta următorul mesaj
+            noClickCount++;
+            document.getElementById("main-image").src = "pisica trista.jpg";  // Pisica devine tristă când se apasă "Nu"
+        }
+
+        // Functia pentru cand se da "Da"
+        function sayYes() {
+            // Schimbă imaginea și fundalul când se apasă "Da"
+            document.getElementById("main-image").src = "pisica fericita.jpg";  // Pisica devine fericită
+            document.body.style.backgroundColor = "lightpink";  // Fundal schimbat
+
+            document.querySelector(".question").innerText = "LYSM Edy a lu Liviu 💖";
+            document.querySelector(".buttons").style.display = "none";  // Ascunde butoanele
+
+            // Adăugarea inimioarelor
+            let heartsDiv = document.getElementById("message");
+            heartsDiv.innerHTML = "💖💖💖💖";
+        }
+    </script>
+</body>
+</html>
